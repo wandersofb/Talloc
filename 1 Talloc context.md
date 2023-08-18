@@ -6,7 +6,7 @@ talloc context 是这个库中最重要的部分，负责这个内存分配器�
 
 从程序员的角度来看，talloc context 完全等同于一个指针，该指针将由 C 标准库中的内存例程返回。这意味着从 talloc 库返回的每个上下文都可以直接用于内部不使用 talloc 的函数。例如，我们可以执行以下操作：
 
-```C
+```c
 char *str1 = strdup("I am NOT a talloc context");
 char *str2 = talloc_strdup(NULL, "I AM a talloc context");
 
