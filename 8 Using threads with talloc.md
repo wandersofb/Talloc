@@ -7,7 +7,7 @@ talloc 库在内部不是线程安全的，因为对 talloc 上下文上的变�
 但是，只要从主线程调用 talloc_disable_null_tracking() 来禁用 talloc 中的全局变量访问，那么每个线程都可以安全地使用从 null 上下文中分配的自己的顶级 talloc 上下文。
 例如：
 
-```C
+```c
 static void *thread_fn(void *arg)
 {
         const char *ctx_name = (const char *)arg;
@@ -47,7 +47,7 @@ static void *thread_fn(void *arg)
 
 pthread 互斥和条件变量用于通过 intermediate_ptr 变量同步传输。
 
-```C
+```c
 /* Required sync variables. */
 static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t condvar = PTHREAD_COND_INITIALIZER;

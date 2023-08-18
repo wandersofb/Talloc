@@ -44,7 +44,7 @@ TALLOC_CTX 类型在 talloc.h中 定义，用于识别函数参数中的 TALLOC 
 
 我们有一个存储用户基本信息的结构——他/她的姓名、身份号码和他/她所属的组：
 
-```C
+```c
 struct user {
   uid_t uid;
   char *username;
@@ -56,7 +56,7 @@ struct user {
 
 ![](.assert/context_tree.png)
 
-```C
+```c
 /* create new top level context */
 struct user *user = talloc(NULL, struct user);
 
@@ -76,9 +76,9 @@ for (i = 0; i < user->num_groups; i++) {
 
 通过这种方式，我们获得了许多额外的功能，其中之一是非常简单的结构及其所有元素的释放。
 
-使用 C 标准库，我们首先需要对组数组进行迭代，并分别释放每个元素。然后我们必须解除分配存储它们的数组。接下来，我们释放用户名，并作为最后一步释放结构本身。但是对于 talloc，我们唯一需要执行的操作就是释放结构上下文。它的后代将自动释放。
+使用 c 标准库，我们首先需要对组数组进行迭代，并分别释放每个元素。然后我们必须解除分配存储它们的数组。接下来，我们释放用户名，并作为最后一步释放结构本身。但是对于 talloc，我们唯一需要执行的操作就是释放结构上下文。它的后代将自动释放。
 
-```C
+```c
 talloc_free(user)；
 ```
 
@@ -98,7 +98,7 @@ talloc 是一个层次结构内存分配器。层次结构的性质使编程更�
 
 上下文的名称会自动设置为用于模拟动态类型系统的数据类型的名称。
 
-```C
+```c
 struct user *user = talloc(ctx, struct user);
 
 /* initialize to default values */
@@ -114,7 +114,7 @@ struct user *user_zero = talloc_zero(ctx, struct user);
 
 零长度上下文基本上是一个没有任何特殊语义的上下文。我们可以像使用其他上下文一样使用它。唯一的区别是，它只由关于上下文的元数据组成。因此，它严格属于 TALLOC_CTX* 类型。它通常用于我们希望在一个父（零长度）上下文下聚合多个数据结构的情况，例如临时上下文，以包含调用方不感兴趣的单个函数中所需的内存。在零长度的临时上下文上进行分配将使函数的清理更加简单。
 
-```C
+```c
 TALLOC_CTX *tmp_ctx = NULL;
 struct foo *foo = NULL;
 struct bar *bar = NULL;

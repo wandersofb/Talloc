@@ -13,7 +13,7 @@ talloc 库包含自己的内存池实现。它对程序员来说是高度透明�
 - 如果上下文是池上下文的后代，它也会占用池中的空间，
 - 如果池没有足够的剩余内存，它将创建一个新的非池上下文，使池保持原样
 
-```C
+```c
 /* allocate 1KiB in a pool */
 TALLOC_CTX *pool_ctx = talloc_pool(NULL, 1024);
 
@@ -40,7 +40,7 @@ talloc_free(pool_ctx);
 
 上面给出的非常方便，但有一个大问题需要记住。如果 talloc 池子级的父级更改为该池之外的父级，则在释放子级之前，不会释放整个池内存。因此，在窃取池上下文的后代时，我们必须非常小心。
 
-```C
+```c
 TALLOC_CTX *mem_ctx = talloc_new(NULL);
 TALLOC_CTX *pool_ctx = talloc_pool(NULL, 1024);
 struct foo *foo = talloc(pool_ctx, struct foo);

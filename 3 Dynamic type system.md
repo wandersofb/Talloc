@@ -2,9 +2,9 @@
 
 ### 3.1 Dynamic Type System
 
-用 C 语言进行泛型编程是非常困难的。面向对象语言既没有继承，也没有已知的模板。没有动态类型系统。因此，这种语言中的泛型编程通常是通过将变量类型转换为 void* 并通过泛型函数将其传递到专用回调来完成的，如下一个列表所示。
+用 c 语言进行泛型编程是非常困难的。面向对象语言既没有继承，也没有已知的模板。没有动态类型系统。因此，这种语言中的泛型编程通常是通过将变量类型转换为 void* 并通过泛型函数将其传递到专用回调来完成的，如下一个列表所示。
 
-```C
+```c
 void generic_function(callback_fn cb, void *pvt)
 {
   /* do some stuff and call the callback */
@@ -42,7 +42,7 @@ void specific_function()
 
 下面的例子将展示如何处理 talloc 的通用编程 —— 如果我们向回调提供无效数据，程序将被中止。在大多数应用中，这是对这种错误的充分反应。
 
-```C
+```c
 void foo_callback(void *pvt)
 {
   struct foo *data = talloc_get_type_abort(pvt, struct foo);
@@ -59,7 +59,7 @@ int do_foo()
 
 但是，如果我们正在创建一个应该在服务器正常运行时间内运行的服务应用程序，我们可能希望在开发过程中中止该应用程序（以确保错误不会被忽略），并尝试从客户版本中的错误中恢复。这可以通过创建带有条件构建的自定义中止函数来实现。
 
-```C
+```c
 void my_abort(const char *reason)
 {
   fprintf(stderr, "talloc abort: %s\n", reason);
@@ -71,7 +71,7 @@ void my_abort(const char *reason)
 
 talloc_get_type_abort() 的用法如下：
 
-```C
+```c
 talloc_set_abort_fn(my_abort);
 
 TALLOC_CTX *ctx = talloc_new(NULL);

@@ -1,6 +1,6 @@
 ## 6 Debugging
 
-尽管 talloc 使内存管理明显比 C 标准库更容易，但开发人员仍然只是人，可能会犯错误。
+尽管 talloc 使内存管理明显比 c 标准库更容易，但开发人员仍然只是人，可能会犯错误。
 
 因此，了解一些用于检查 talloc 内存使用情况的工具会很方便。
 
@@ -22,7 +22,7 @@
 
 以下代码是释放上下文后访问上下文的示例输出：
 
-```C
+```c
 talloc_set_log_stderr();
 TALLOC_CTX *ctx = talloc_new(NULL);
 
@@ -36,7 +36,7 @@ Bad talloc magic value - access after free
 
 另一个例子是无效上下文：
 
-```C
+```c
 talloc_set_log_stderr();
 TALLOC_CTX *ctx = talloc_new(NULL);
 char *str = strdup("not a talloc context");
@@ -54,7 +54,7 @@ Talloc 可以将指定 Talloc 上下文的内存使用情况报告打印到文�
 
 我们将使用以下代码来检索示例报告：
 
-```C
+```c
 struct foo {
   char *str;
 };
@@ -71,7 +71,7 @@ talloc_report_full(ctx, stdout);
 
 它将把 ctx 的完整报告打印到标准输出中。消息应类似于：
 
-```C
+```c
 full talloc report on 'talloc_new: ../src/main.c:82' (total 46 bytes in 5 blocks)
   struct foo contains 34 bytes in 3 blocks (ref 0) 0x1495130
     Foo is my parent contains 17 bytes in 1 blocks (ref 0) 0x1495200

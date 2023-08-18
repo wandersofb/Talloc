@@ -26,7 +26,7 @@ value
 
 如果函数不返回在堆上创建的任何值，我们将只遵循前面提到的模式。
 
-```C
+```c
 int bar()
 {
   int ret;
@@ -49,7 +49,7 @@ done:
 
 此模式确保在发生错误（例如I/O错误或内存不足）时，释放所有分配的数据，并且在目标上下文中不会出现垃圾。
 
-```C
+```c
 int struct_foo_init(TALLOC_CTX *mem_ctx, struct foo **_foo)
 {
   int ret;
@@ -73,7 +73,7 @@ done:
 
 从上一个列表中可以看出，我们没有直接在 mem_ctx 上分配临时上下文，而是使用 NULL 作为 talloc_new() 函数的参数创建了一个新的顶级上下文。请看以下示例：
 
-```C
+```c
 char *create_user_filter(TALLOC_CTX *mem_ctx,
                          uid_t uid, const char *username)
 {
@@ -114,7 +114,7 @@ char *create_user_filter(TALLOC_CTX *mem_ctx,
 
 如果我们想利用 talloc 池的优势，同时保持上一节中介绍的模式，我们无法直接做到这一点。最好的做法是创建一个条件构建，在这里我们可以决定如何创建临时上下文。例如，我们可以创建以下宏：
 
-```C
+```c
 #ifdef USE_POOL_CONTEXT
   #define CREATE_POOL_CTX(ctx, size) talloc_pool(ctx, size)
   #define CREATE_TMP_CTX(ctx)        talloc_new(ctx)
@@ -128,7 +128,7 @@ char *create_user_filter(TALLOC_CTX *mem_ctx,
 
 发布版本将使用定义的宏进行编译。这将启用池上下文，从而减少 malloc() 调用，从而加快处理速度。
 
-```C
+```c
 int struct_foo_init(TALLOC_CTX *mem_ctx, struct foo **_foo)
 {
   int ret;
